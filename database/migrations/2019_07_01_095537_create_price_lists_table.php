@@ -15,6 +15,7 @@ class CreatePriceListsTable extends Migration
     {
         Schema::create('price_lists', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('hotel_id');
             $table->float('price');
             $table->string('currency')->default('USD');
             $table->string('type');
