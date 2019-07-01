@@ -14,4 +14,12 @@ class PriceList extends Model
     protected $guarded = [
         'id',
     ];
+
+    /**
+     * Relationships
+     */
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class);
+    }
 }

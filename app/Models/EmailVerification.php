@@ -14,4 +14,9 @@ class EmailVerification extends Model
     protected $guarded = [
         'id',
     ];
+
+    /**
+     * Relationships
+     */
+    
 }

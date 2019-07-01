@@ -36,4 +36,17 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Relationships
+     */
+    public function emailVerification()
+    {
+        return $this->hasOne(EmailVerification::class,'user_id');
+    }
+
+    public function hotels()
+    {
+        return $this->belongsToMany(Hotel::class);
+    }
 }
