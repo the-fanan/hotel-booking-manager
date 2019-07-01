@@ -38,6 +38,20 @@ class User extends Authenticatable
     ];
 
     /**
+     * Mutators
+    */
+    public function setEmailAttribute($value) 
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+    
+    public function setNameAttribute($value) 
+    {
+        $value = strtolower($value);
+        $this->attributes['name'] = ucwords($value);
+    }
+
+    /**
      * Relationships
      */
     public function emailVerification()
