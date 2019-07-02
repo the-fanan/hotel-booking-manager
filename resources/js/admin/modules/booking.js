@@ -1,4 +1,4 @@
-export default booking = {
+const booking = {
 	state: {
 		
 	},
@@ -12,3 +12,5 @@ export default booking = {
 
 	}
 }
+
+export default booking;

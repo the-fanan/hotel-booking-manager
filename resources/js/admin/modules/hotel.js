@@ -1,4 +1,4 @@
-export default hotel = {
+const hotel = {
 	state: {
 		name: null,
 		id: null,
@@ -13,3 +13,5 @@ export default hotel = {
 
 	}
 }
+
+export default hotel;

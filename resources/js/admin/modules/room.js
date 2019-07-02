@@ -1,4 +1,4 @@
-export default room = {
+const room = {
 	state: {
 		
 	},
@@ -12,3 +12,4 @@ export default room = {
 
 	}
 }
+export default room;
