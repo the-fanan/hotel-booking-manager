@@ -13,7 +13,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		apiRoot: "http://localhost:8000/api/admin/"
+		apiRoot: "http://localhost:8000/api/admin"
 	},
 	getters: {
 
@@ -30,13 +30,5 @@ export default new Vuex.Store({
 		room,
 		booking,
 	},
-	plugins: [createPersistedState({
-		key: 'user',
-		storage: {
-			getItem: key => Cookies.get(key),
-			setItem: (key, value) =>
-				Cookies.set(key, value, { expires: 3, secure: true }),
-			removeItem: key => Cookies.remove(key),
-		},
-	})],
+	plugins: [createPersistedState()],
 });
