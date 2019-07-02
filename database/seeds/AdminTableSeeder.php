@@ -13,11 +13,13 @@ class AdminTableSeeder extends Seeder
      */
     public function run()
     {
-        Admin::create([
+        $admin = Admin::create([
             "name" => "Fanan Dala",
             "email" => "fanan.dala@yahoo.com",
             "password" => Hash::make("fanan123"),
             "email_verified" => 1,
         ]);
+
+        $admin->hotels()->attach(1);
     }
 }
