@@ -1,3 +1,5 @@
+import router from "../router";
+
 const auth = {
 	namespaced: true,
 	state: {
@@ -20,6 +22,7 @@ const auth = {
 			state.user = {};
 			state.token = null;
 			state.isAuthenticated = false;
+			router.push({ path: "/" });
 		}
 	},
 	actions: {

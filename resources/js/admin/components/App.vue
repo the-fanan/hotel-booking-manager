@@ -39,7 +39,7 @@
 			<v-spacer></v-spacer>
 			<v-toolbar-items>
 				<v-btn flat to="/login" class="primary--text" v-if="!isAuthenticated">Login</v-btn>
-				<v-btn flat class="primary--text" v-if="isAuthenticated">Logout</v-btn>
+				<v-btn flat class="primary--text" v-if="isAuthenticated" @click="logout">Logout</v-btn>
     	</v-toolbar-items>
 		</v-toolbar>
 		<v-content>
