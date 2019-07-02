@@ -13,7 +13,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-
+		apiRoot: "http://localhost:8000/api/admin/"
 	},
 	getters: {
 

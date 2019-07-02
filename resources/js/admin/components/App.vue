@@ -75,7 +75,7 @@ export default {
     ...mapState('auth', ['isAuthenticated'])
 	},
 	methods: {
-		...mapMutations({}),
+		...mapMutations('auth', ['logout']),
     ...mapActions({}),
 	}
 }

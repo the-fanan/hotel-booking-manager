@@ -9,7 +9,18 @@ const auth = {
 
 	},
 	mutations: {
-
+		login(state, payload)
+		{
+			state.user = payload.user;
+			state.token = payload.token;
+			state.isAuthenticated = true;
+		},
+		logout(state)
+		{
+			state.user = {};
+			state.token = null;
+			state.isAuthenticated = false;
+		}
 	},
 	actions: {
 		
