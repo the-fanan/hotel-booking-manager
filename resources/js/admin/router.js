@@ -17,28 +17,25 @@ Vue.use(VueRouter);
 
 export default new VueRouter({
 	routes: [
-		{
-			path: "/admin",
-			children: [
 				{
-					path: "",
+					path: "/",
 					alias: "login",
 					component: Login,
 				},
 				{
-					path: "booking-management",
+					path: "/booking-management",
 					component: BookingManager,
 				},
 				{
-					path: "dashboard",
+					path: "/dashboard",
 					component: Dashboard,
 				},
 				{
-					path: "hotel-management",
+					path: "/hotel-management",
 					component: HotelManager,
 				},
 				{
-					path: "price-list-management",
+					path: "/price-list-management",
 					component: PriceListManager
 				},
 				{
@@ -46,15 +43,9 @@ export default new VueRouter({
 					component: RoomManager,
 				},
 				{
-					path: "room-type-management",
+					path: "/room-type-management",
 					component: RoomTypeManager
 				},
-				{
-					path: "*",
-					component: Error404,
-				}
-			]
-		},
 		{
 			path: "*",
 			component: Error404,
