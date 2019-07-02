@@ -26,10 +26,10 @@ export default new VueRouter({
 					path: "/booking-management",
 					component: BookingManager,
 				},
-				{
+				/*{
 					path: "/dashboard",
 					component: Dashboard,
-				},
+				},*/
 				{
 					path: "/hotel-management",
 					component: HotelManager,
@@ -39,7 +39,7 @@ export default new VueRouter({
 					component: PriceListManager
 				},
 				{
-					path: "room-management",
+					path: "/room-management",
 					component: RoomManager,
 				},
 				{

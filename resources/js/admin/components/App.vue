@@ -43,9 +43,7 @@
     	</v-toolbar-items>
 		</v-toolbar>
 		<v-content>
-			<v-container fluid>
-				<router-view></router-view>
-			</v-container>
+			<router-view></router-view>
 		</v-content>
 		
 	</v-app>
@@ -58,7 +56,6 @@ export default {
 	data() {
 		return {
 			adminLinks: [
-				{title: "Dashboard", icon: "dashboard", to: "/dashboard"},
 				{title: "Hotel", icon: "business", to: "/hotel-management"},
 				{title: "Rooms", icon: "meeting_room", to: "/room-management"},
 				{title: "Room Types", icon: "weekend", to: "/room-type-management"},

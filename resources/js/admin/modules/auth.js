@@ -16,6 +16,7 @@ const auth = {
 			state.user = payload.user;
 			state.token = payload.token;
 			state.isAuthenticated = true;
+			router.push({ path: "/hotel-management" });
 		},
 		logout(state)
 		{
@@ -27,7 +28,7 @@ const auth = {
 		checkAuthentication(state)
 		{
 			if (state.isAuthenticated && (router.currentRoute.path == "/" || router.currentRoute.path == "/login")) {
-				router.push({path: "/dashboard"});
+				router.push({path: "/hotel-management"});
 			} else if (!state.isAuthenticated && (router.currentRoute.path != "/" || router.currentRoute.path != "/login")) {
 				router.push({path: "/login"});
 			}
