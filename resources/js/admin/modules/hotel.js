@@ -1,4 +1,4 @@
-export const hotel = {
+export default hotel = {
 	state: {
 		name: null,
 		id: null,

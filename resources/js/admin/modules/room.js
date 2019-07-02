@@ -1,4 +1,4 @@
-export const room = {
+export default room = {
 	state: {
 		
 	},

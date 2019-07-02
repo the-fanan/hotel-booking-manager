@@ -1,4 +1,4 @@
-export const auth = {
+export default auth = {
 	state: {
 		user: {},
 		token: null,
