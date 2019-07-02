@@ -164,15 +164,19 @@ export default {
 		{
 			let vm = this;
 			let formData = new FormData();
-			formData.append('name', this.hotel.name);
-			formData.append('address', this.hotel.address);
-			formData.append('city', this.hotel.city);
-			formData.append('state', this.hotel.state);
-			formData.append('country', this.hotel.country);
-			formData.append('zipcode', this.hotel.zipcode);
-			formData.append('phone', this.hotel.phone);
-			formData.append('email', this.hotel.email);
-			formData.append('image', this.newImage);
+			formData.append('id', vm.hotel.id)
+			formData.append('name', vm.hotel.name);
+			formData.append('address', vm.hotel.address);
+			formData.append('city', vm.hotel.city);
+			formData.append('state', vm.hotel.state);
+			formData.append('country', vm.hotel.country);
+			formData.append('zipcode', vm.hotel.zipcode);
+			formData.append('phone', vm.hotel.phone);
+			formData.append('email', vm.hotel.email);
+			if (vm.newImage !== null) {
+				formData.append('image', vm.newImage);
+			}
+			
 
 			axios.post(vm.apiRoot + "/hotel/" + vm.hotel.id, formData, {
 				headers: {
@@ -187,7 +191,7 @@ export default {
 			.catch(error => {
 				if (error.response !== undefined) {
 					console.log(error.response)
-					vm.alert = {type: "error", show: true, message: error.response.data.message };
+					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
 				} else {
 					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
 				}

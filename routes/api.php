@@ -23,6 +23,12 @@ Route::group(["prefix" => "admin", "namespace" => "API\Admin"], function() {
     });
 
     Route::group(["middleware" => "auth:api-admin"], function() {
-        Route::get("/hotel", "HotelController@getHotel");
+
+        Route::group(["prefix" => "hotel"], function() {
+            Route::get("/", "HotelController@getHotel");
+            Route::post("/{id}", "HotelController@updateHotel");
+        });
+        
+    
     });
 });
