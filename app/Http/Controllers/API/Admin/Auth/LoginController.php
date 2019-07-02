@@ -66,8 +66,6 @@ class LoginController extends Controller
         $user = Admin::where('email', '=', $request->email)->first();
         $APItokenDetails = $user->createToken('shecluded');//this decouplin is done incase other details are needed to be retrieved later
         $APItoken = $APItokenDetails->accessToken;
-        //employment details
-        $user->employment_details = $user->getEmploymentDetails();
         //response
         $response = [
             "message" => "Login Successful!",
