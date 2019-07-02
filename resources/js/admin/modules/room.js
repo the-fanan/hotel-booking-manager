@@ -1,4 +1,5 @@
 const room = {
+	namespaced: true,
 	state: {
 		
 	},

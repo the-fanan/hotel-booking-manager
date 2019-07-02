@@ -1,4 +1,5 @@
 const booking = {
+	namespaced: true,
 	state: {
 		
 	},

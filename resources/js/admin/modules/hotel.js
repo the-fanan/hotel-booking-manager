@@ -1,4 +1,5 @@
 const hotel = {
+	namespaced: true,
 	state: {
 		name: null,
 		id: null,
