@@ -46,13 +46,14 @@ export default {
 		}
 	},
 	created() {
+		this.checkAuthentication();
 	},
 	computed: {
     ...mapGetters({}),
     ...mapState(['apiRoot'])
 	},
 	methods: {
-		...mapMutations('auth', ['login']),
+		...mapMutations('auth', ['login', 'checkAuthentication']),
 		...mapActions({}),
 		submitForm()
 		{

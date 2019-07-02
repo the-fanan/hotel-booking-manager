@@ -12,13 +12,14 @@ export default {
 		}
 	},
 	created() {
+		this.checkAuthentication();
 	},
 	computed: {
     ...mapGetters({}),
     ...mapState({})
 	},
 	methods: {
-		...mapMutations({}),
+		...mapMutations('auth', ['checkAuthentication']),
     ...mapActions({}),
 	}
 }

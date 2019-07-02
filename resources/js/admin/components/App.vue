@@ -9,7 +9,7 @@
 					</v-list-tile-avatar>
 
 					<v-list-tile-content>
-						<v-list-tile-title>Fanan Dala</v-list-tile-title>
+						<v-list-tile-title>{{ user.name }}</v-list-tile-title>
 					</v-list-tile-content>
 				</v-list-tile>
 			</v-list>
@@ -69,10 +69,11 @@ export default {
 		}
 	},
 	created() {
+		
 	},
 	computed: {
     ...mapGetters({}),
-    ...mapState('auth', ['isAuthenticated'])
+    ...mapState('auth', ['isAuthenticated','user'])
 	},
 	methods: {
 		...mapMutations('auth', ['logout']),

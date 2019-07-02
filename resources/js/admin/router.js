@@ -19,7 +19,7 @@ export default new VueRouter({
 	routes: [
 				{
 					path: "/",
-					alias: "login",
+					alias: "/login",
 					component: Login,
 				},
 				{

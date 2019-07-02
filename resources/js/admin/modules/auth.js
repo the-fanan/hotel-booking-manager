@@ -23,6 +23,14 @@ const auth = {
 			state.token = null;
 			state.isAuthenticated = false;
 			router.push({ path: "/" });
+		},
+		checkAuthentication(state)
+		{
+			if (state.isAuthenticated && (router.currentRoute.path == "/" || router.currentRoute.path == "/login")) {
+				router.push({path: "/dashboard"});
+			} else if (!state.isAuthenticated && (router.currentRoute.path != "/" || router.currentRoute.path != "/login")) {
+				router.push({path: "/login"});
+			}
 		}
 	},
 	actions: {
