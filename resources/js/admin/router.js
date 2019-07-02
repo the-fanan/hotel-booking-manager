@@ -1,3 +1,4 @@
+import Vue from "vue";
 import VueRouter from "vue-router";
 
 //Errors
@@ -11,6 +12,8 @@ import HotelManager from "./components/views/HotelManager";
 import PriceListManager from "./components/views/PriceListManager";
 import RoomManager from "./components/views/RoomManager";
 import RoomTypeManager from "./components/views/RoomTypeManager";
+
+Vue.use(VueRouter);
 
 export default new VueRouter({
 	routes: [
