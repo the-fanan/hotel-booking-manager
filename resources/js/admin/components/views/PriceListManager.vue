@@ -15,7 +15,7 @@
 
 		<v-layout column fill-height justify-center>
 			<v-flex xs12>
-				<v-form v-on:submit.prevent="createPrice" syle="padding-top:10px;">
+				<v-form v-on:submit.prevent="createPrice" style="padding-top:10px;">
 					<v-flex xs12 md4>
 						<v-text-field
 							v-model="newPrice.price"
@@ -54,15 +54,17 @@ export default {
 		return {
 			newPrice: {price: "", description: ""},
 			alert: { type: "error", show: false, message: null },
-			priceLists: {},
+			priceList: [],
 		}
 	},
 	created() {
 		this.checkAuthentication();
+		this.fetchPrices();
 	},
 	computed: {
     ...mapGetters({}),
-    ...mapState(['apiRoot'])
+		...mapState(['apiRoot']),
+		...mapState('auth', ['token']),
 	},
 	methods: {
 		...mapMutations('auth', ['checkAuthentication']),
@@ -76,12 +78,35 @@ export default {
 				}
 			})
 			.then(response => {
-				vm.priceLists = response.data;
+				vm.priceList = response.data;
+			})
+			.catch(error => {
+				console.log(error);
 			});
 		},
 		createPrice()
 		{
-
+			let vm = this;
+			axios.post(vm.apiRoot + '/prices', {price: vm.newPrice.price, description: vm.newPrice.description}, {
+				headers: {
+					Authorization: "Bearer " + vm.token
+				}
+			})
+			.then(response => {
+				vm.priceList.unshift(response.data.price);
+				vm.newPrice.price = "";
+				vm.newPrice.description = "";
+				vm.alert = {type: "success", show: true, message: response.data.message };
+			})
+			.catch(error => {
+				if (error.response !== undefined) {
+					console.log(error.response)
+					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
+				} else {
+					console.log(error)
+					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
+				}
+			})
 		},
 	}
 }
