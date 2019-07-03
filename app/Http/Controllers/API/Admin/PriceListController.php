@@ -78,8 +78,32 @@ class PriceListController extends Controller
         return response()->json($response,200);
     }
 
-    public function deletePrice()
+    public function deletePrice(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            "id" => ["required", "numeric"],
+        ]);
 
+        if ($validator->fails()) {
+            $error["message"] = "Invalid or missing input fields";
+            $validation_messages = "";
+            foreach ($validator->errors()->toArray() as $name => $value) {
+                $validation_messages .= $value[0] . " ";
+            }
+            $error["validation_messages"] = $validation_messages;
+            $error["status"] = "error";
+            return response()->json($error, 401);
+        }
+
+        $hotel = $request->user()->hotels()->first();
+        $price = $hotel->priceLists()->where("id", $request->id)->first();
+        $price->forceDelete();
+
+        $response = [
+            "message" => "Price details deleted succesfully",
+            "status" => "success",
+        ];
+
+        return response()->json($response,200);
     }
 }
