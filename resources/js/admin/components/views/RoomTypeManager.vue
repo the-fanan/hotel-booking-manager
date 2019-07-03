@@ -2,7 +2,7 @@
 	<v-container fluid>
 		<v-layout align-center justify-center row>
 			<v-flex xs12>
-				<h1 class="primary--text">Room Type</h1>
+				<h1 class="primary--text">Room Types</h1>
 				<v-divider></v-divider>
 			</v-flex>
 		</v-layout>
@@ -151,7 +151,27 @@ export default {
 		},
 		createRoomType()
 		{
-
+			let vm = this;
+			axios.post(vm.apiRoot + '/room-types', {name: vm.newRoomType.name, price_list_id: vm.newRoomType.price_list_id}, {
+				headers: {
+					Authorization: "Bearer " + vm.token
+				}
+			})
+			.then(response => {
+				vm.roomTypes.unshift(response.data.roomType);
+				vm.newRoomType.name = "";
+				vm.newRoomType.price_list_id = "";
+				vm.alert = {type: "success", show: true, message: response.data.message };
+			})
+			.catch(error => {
+				if (error.response !== undefined) {
+					console.log(error.response)
+					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
+				} else {
+					console.log(error)
+					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
+				}
+			})
 		},
 		editRoomType(roomTypeDetails)
 		{

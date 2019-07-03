@@ -38,6 +38,9 @@ Route::group(["prefix" => "admin", "namespace" => "API\Admin"], function() {
         
         Route::group(["prefix" => "room-types"], function() {
             Route::get("/", "RoomTypeController@roomTypes");
+            Route::post("/", "RoomTypeController@createRoomType");
+            Route::post("/{id}", "RoomTypeController@editRoomType");
+            Route::post("/delete/{id}", "RoomTypeController@deleteRoomType");
         });
     });
 });

@@ -13,4 +13,37 @@ class RoomTypeController extends Controller
         $hotel = $request->user()->hotels()->first();
         return response()->json($hotel->roomTypes()->get(),200);
     }
+
+    public function createRoomType(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "name" => ["required", "string"],
+            "price_list_id" => ["required", "numeric"],
+        ]);
+
+        if ($validator->fails()) {
+            $error["message"] = "Invalid or missing input fields";
+            $validation_messages = "";
+            foreach ($validator->errors()->toArray() as $name => $value) {
+                $validation_messages .= $value[0] . " ";
+            }
+            $error["validation_messages"] = $validation_messages;
+            $error["status"] = "error";
+            return response()->json($error, 401);
+        }
+
+        $roomTypeFields = $request->only(["name", "price_list_id"]);
+        $hotel = $request->user()->hotels()->first();
+        $newRoomType = $hotel->roomTypes()->create($roomTypeFields);
+
+        $response = [
+            "message" => "New room type created succesfully",
+            "roomType" => $newRoomType,
+            "status" => "success",
+        ];
+
+        return response()->json($response,200);
+    }
+
+    
 }
