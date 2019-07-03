@@ -13,7 +13,7 @@
 		</v-layout>
 		<v-layout column fill-height justify-center>
 			<v-flex xs12>
-				<v-form style="min-width: 400px;" v-on:submit.prevent="updateHotel">
+				<v-form v-on:submit.prevent="updateHotel">
 					<v-flex xs12>
 						<v-text-field
 							v-model="hotel.name"
