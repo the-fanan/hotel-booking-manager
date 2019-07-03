@@ -18,8 +18,7 @@ class CreatePriceListsTable extends Migration
             $table->integer('hotel_id');
             $table->float('price');
             $table->string('currency')->default('USD');
-            $table->string('type');
-            $table->integer('room_type_id');
+            $table->string('description');
             $table->timestamps();
         });
     }

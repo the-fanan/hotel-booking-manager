@@ -25,6 +25,6 @@ class PriceList extends Model
 
     public function roomType()
     {
-        return $this->belongsTo(RoomType::class);
+        return $this->hasMany(RoomType::class);
     }
 }
