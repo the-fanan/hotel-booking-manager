@@ -78,5 +78,33 @@ class RoomTypeController extends Controller
         return response()->json($response,200);
     }
 
-    
+    public function deleteRoomType(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "id" => ["required", "numeric"],
+        ]);
+
+        if ($validator->fails()) {
+            $error["message"] = "Invalid or missing input fields";
+            $validation_messages = "";
+            foreach ($validator->errors()->toArray() as $name => $value) {
+                $validation_messages .= $value[0] . " ";
+            }
+            $error["validation_messages"] = $validation_messages;
+            $error["status"] = "error";
+            return response()->json($error, 401);
+        }
+
+        $roomTypeFields = $request->only(["name", "price_list_id"]);
+        $hotel = $request->user()->hotels()->first();
+        $roomType = $hotel->roomTypes()->where("id", $request->id)->first();
+        $roomType->forceDelete();
+
+        $response = [
+            "message" => "Room Type deleted succesfully",
+            "status" => "success",
+        ];
+
+        return response()->json($response,200);
+    }
 }
