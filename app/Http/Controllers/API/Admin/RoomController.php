@@ -48,6 +48,46 @@ class RoomController extends Controller
         return response()->json($response,200);
     }
 
+    public function editRoom(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "id" => ["required", "numeric"],
+            "name" => ["required", "string", "unique:rooms,name," . $request->id],
+            "room_type_id" => ["required", "numeric"],
+            "image" => ["sometimes", "mimetypes:image/bmp,image/gif,image/jpeg,image/png,image/tiff"],
+        ]);
+
+        if ($validator->fails()) {
+            $error["message"] = "Invalid or missing input fields";
+            $validation_messages = "";
+            foreach ($validator->errors()->toArray() as $name => $value) {
+                $validation_messages .= $value[0] . " ";
+            }
+            $error["validation_messages"] = $validation_messages;
+            $error["status"] = "error";
+            return response()->json($error, 401);
+        }
+
+        $roomFields = $request->only(["name", "room_type_id"]);
+        $hotel = $request->user()->hotels()->first();
+        $room = $hotel->rooms()->where("id", $request->id)->first();
+        $room->fill($roomFields);
+
+        if ($request->hasFile('image')) {
+            $imageUrl = $this->uploadFile($request->image);
+            $room->image = $imageUrl["secure_url"];
+        }
+        $room->save();
+
+        $response = [
+            "message" => "Room details updated succesfully",
+            "room" => $room,
+            "status" => "success",
+        ];
+
+        return response()->json($response,200);
+    }
+
     public function deleteRoom(Request $request)
     {
         $validator = Validator::make($request->all(), [

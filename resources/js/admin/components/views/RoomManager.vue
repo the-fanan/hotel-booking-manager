@@ -215,9 +215,9 @@ export default {
 		{
 			const files = this.$refs[refId].files;
       if(files[0] !== undefined) {
-        fileOwner.image = files[0];
+        fileOwner.new_image = files[0];
       } else {
-        fileOwner.image = null;
+        fileOwner.new_image = null;
       }  
 		},
 		createRoom()
@@ -252,7 +252,34 @@ export default {
 		},
 		editRoom(roomDetails)
 		{
-
+			let vm = this;
+			let formData = new FormData();
+			formData.append('id', roomDetails.id)
+			formData.append('name', roomDetails.name);
+			formData.append('room_type_id', roomDetails.room_type_id);
+			if(roomDetails.new_image) {
+				formData.append('image', roomDetails.new_image);
+			}
+			
+			axios.post(vm.apiRoot + '/rooms/' + roomDetails.id, formData, {
+				headers: {
+					"Content-Type" : "multipart/form-data",
+					Authorization: "Bearer " + vm.token,
+				}
+			})
+			.then(response => {
+				this.fetchRooms();
+				vm.alert = {type: "success", show: true, message: response.data.message };
+			})
+			.catch(error => {
+				if (error.response !== undefined) {
+					console.log(error.response)
+					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
+				} else {
+					console.log(error)
+					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
+				}
+			});
 		},
 		deleteRoom(roomDetails)
 		{
