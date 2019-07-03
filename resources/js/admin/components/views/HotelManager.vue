@@ -207,7 +207,7 @@ export default {
       if(files[0] !== undefined) {
         this.newImage = files[0];
       } else {
-        this.newImage = "";
+        this.newImage = null;
       }  
     },
 	}
