@@ -48,6 +48,35 @@ class RoomController extends Controller
         return response()->json($response,200);
     }
 
+    public function deleteRoom(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "id" => ["required", "numeric"],
+        ]);
+
+        if ($validator->fails()) {
+            $error["message"] = "Invalid or missing input fields";
+            $validation_messages = "";
+            foreach ($validator->errors()->toArray() as $name => $value) {
+                $validation_messages .= $value[0] . " ";
+            }
+            $error["validation_messages"] = $validation_messages;
+            $error["status"] = "error";
+            return response()->json($error, 401);
+        }
+
+        $hotel = $request->user()->hotels()->first();
+        $room = $hotel->rooms()->where("id", $request->id)->first();
+        $room->forceDelete();
+
+        $response = [
+            "message" => "Room deleted succesfully",
+            "status" => "success",
+        ];
+
+        return response()->json($response,200);
+    }
+
     /**
      * Functions not related to routes
      */

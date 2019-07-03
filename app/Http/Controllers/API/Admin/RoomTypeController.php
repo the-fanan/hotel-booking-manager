@@ -95,7 +95,6 @@ class RoomTypeController extends Controller
             return response()->json($error, 401);
         }
 
-        $roomTypeFields = $request->only(["name", "price_list_id"]);
         $hotel = $request->user()->hotels()->first();
         $roomType = $hotel->roomTypes()->where("id", $request->id)->first();
         $roomType->forceDelete();

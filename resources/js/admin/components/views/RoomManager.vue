@@ -122,7 +122,7 @@
             />
 						</td>
 
-						<td><v-btn dark color="warning" @click="editRoom(props.item)">Edit Room Type</v-btn> <v-btn dark color="error" @click="deleteRoom(props.item)">Delete Room Type</v-btn></td>
+						<td><v-btn dark color="warning" @click="editRoom(props.item)">Edit Room</v-btn> <v-btn dark color="error" @click="deleteRoom(props.item)">Delete Room</v-btn></td>
 					</tr>
 				</template>
 			</v-data-table>
@@ -132,6 +132,7 @@
 
 <script>
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import _ from "lodash";
 
 export default {
 	data() {
@@ -255,7 +256,26 @@ export default {
 		},
 		deleteRoom(roomDetails)
 		{
-
+			let vm = this;
+			axios.post(vm.apiRoot + '/rooms/delete/' + roomDetails.id, {id: roomDetails.id}, {
+				headers: {
+					Authorization: "Bearer " + vm.token
+				}
+			})
+			.then(response => {
+				var index = _.findIndex(vm.rooms , {id: roomDetails.id});
+				vm.rooms.splice(index, 1);
+				vm.alert = {type: "success", show: true, message: response.data.message };
+			})
+			.catch(error => {
+				if (error.response !== undefined) {
+					console.log(error.response)
+					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
+				} else {
+					console.log(error)
+					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
+				}
+			});
 		}
 	}
 }
