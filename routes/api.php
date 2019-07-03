@@ -36,6 +36,8 @@ Route::group(["prefix" => "admin", "namespace" => "API\Admin"], function() {
             Route::post("/delete/{id}", "PriceListController@deletePrice");
         });
         
-    
+        Route::group(["prefix" => "room-types"], function() {
+            Route::get("/", "RoomTypeController@roomTypes");
+        });
     });
 });
