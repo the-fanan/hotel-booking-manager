@@ -9,11 +9,12 @@ https://app.codeline.io/#/projects/3064/tasks/26929
 ### Backend
 1. Run `composer update`
 2. Run `php artisan key:generate`
-3. Run `php artisan migrate:fresh --seed`
-4. Run `php artisan passport:install`
-5. Run `php artisan passport:keys`
-6. Run `php artisan passport:client --personal`
-7. Update .env variables
+3. Update .env variables
+4. Run `php artisan migrate:fresh --seed`
+5. Run `php artisan passport:install`
+6. Run `php artisan passport:keys`
+7. Run `php artisan passport:client --personal`
+
 
 ### Frontend
 1. Run `yarn install`
