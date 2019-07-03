@@ -52,7 +52,6 @@
               style="display:none"
               ref="newRoomImage"
               accept="image/*"
-              id="image1"
               @change="onFilePicked"
             />
 					</v-flex>
@@ -119,7 +118,6 @@
               style="display:none"
               :ref="'room_image_' + props.item.id"
               accept="image/*"
-              id="image1"
               @change="onFilePickedForUpdate(props.item, 'room_image_' + props.item.id)"
             />
 						</td>
@@ -189,7 +187,7 @@ export default {
 			})
 			.then(response => {
 				vm.rooms = response.data;
-				vm.rooms = vm.rooms.map(room => { room.new_image = ""; return room; });//this is done to handle picture updates
+				vm.rooms = vm.rooms.map(room => { room.new_image = null; return room; });//this is done to handle picture updates
 			})
 			.catch(error => {
 				console.log(error);
@@ -206,7 +204,7 @@ export default {
         this.newRoom.image = files[0];
       } else {
         this.newRoom.image = null;
-      }  
+			}  
 		},
 		selectFileForUpdate(refId)
 		{
@@ -223,7 +221,33 @@ export default {
 		},
 		createRoom()
 		{
+			let vm = this;
+			let formData = new FormData();
+			formData.append('name', vm.newRoom.name);
+			formData.append('room_type_id', vm.newRoom.room_type_id);
+			formData.append('image', vm.newRoom.image);
 
+			axios.post(vm.apiRoot + "/rooms/", formData, {
+				headers: {
+					"Content-Type" : "multipart/form-data",
+					Authorization: "Bearer " + vm.token,
+				}
+			})
+			.then(response => {
+				vm.rooms.unshift(response.data.room);
+				vm.newRoom.name = "";
+				vm.newRoom.room_type_id = "";
+				vm.newRoom.image = null;
+				vm.alert = {type: "success", show: true, message: response.data.message };
+			})
+			.catch(error => {
+				if (error.response !== undefined) {
+					console.log(error.response)
+					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
+				} else {
+					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
+				}
+			})
 		},
 		editRoom(roomDetails)
 		{
