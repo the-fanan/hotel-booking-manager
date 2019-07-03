@@ -43,11 +43,52 @@
 				</v-form>
 			</v-flex>
 		</v-layout>
+
+		<v-layout column fill-height justify-center>
+			<v-data-table
+			:headers="priceListHeaders"
+			:items="priceList">
+				<template v-slot:headers="props">
+					<tr>
+						<th v-for="header in props.headers" :key="header.text">
+							{{ header.text }}
+						</th>
+					</tr>
+				</template>
+
+				<template v-slot:items="props">
+					<tr>
+						<td>
+							<v-text-field
+							v-model="props.item.price"
+							label="Price"
+							required
+							type="number"
+							outline
+							></v-text-field>
+						</td>
+
+						<td>
+							<v-text-field
+							v-model="props.item.description"
+							label="Description"
+							required
+							type="text"
+							outline
+							></v-text-field>
+						</td>
+
+						<td><v-btn dark color="warning" @click="editPrice(props.item)">Edit Price</v-btn> <v-btn dark color="error" @click="deletePrice(props.item)">Delete Price</v-btn></td>
+					</tr>
+				</template>
+			</v-data-table>
+		</v-layout>
 	</v-container>
 </template>
 
 <script>
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import _ from "lodash";
 
 export default {
 	data() {
@@ -55,6 +96,11 @@ export default {
 			newPrice: {price: "", description: ""},
 			alert: { type: "error", show: false, message: null },
 			priceList: [],
+			priceListHeaders: [
+				{text: "Price", value: "price"},
+				{text: "Description", value: "description"},
+				{text: "Action", value: null}
+			],
 		}
 	},
 	created() {
@@ -108,6 +154,31 @@ export default {
 				}
 			})
 		},
+		editPrice(priceDetails)
+		{
+			let vm = this;
+			axios.post(vm.apiRoot + '/prices/' + priceDetails.id, {id: priceDetails.id,price: priceDetails.price, description: priceDetails.description}, {
+				headers: {
+					Authorization: "Bearer " + vm.token
+				}
+			})
+			.then(response => {
+				vm.alert = {type: "success", show: true, message: response.data.message };
+			})
+			.catch(error => {
+				if (error.response !== undefined) {
+					console.log(error.response)
+					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
+				} else {
+					console.log(error)
+					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
+				}
+			});
+		},
+		deletePrice(priceDetails)
+		{
+			
+		}
 	}
 }
 </script>

@@ -33,6 +33,7 @@ Route::group(["prefix" => "admin", "namespace" => "API\Admin"], function() {
             Route::get("/", "PriceListController@prices");
             Route::post("/", "PriceListController@createPrice");
             Route::post("/{id}", "PriceListController@editPrice");
+            Route::post("/delete/{id}", "PriceListController@deletePrice");
         });
         
     
