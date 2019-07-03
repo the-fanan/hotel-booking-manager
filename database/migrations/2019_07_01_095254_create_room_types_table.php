@@ -17,7 +17,6 @@ class CreateRoomTypesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('hotel_id');
-            $table->integer('current_price_id')->nullable();
             $table->timestamps();
         });
     }

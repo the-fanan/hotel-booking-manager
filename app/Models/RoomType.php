@@ -28,13 +28,8 @@ class RoomType extends Model
         return $this->hasMany(Room::class);
     }
 
-    public function priceLists()
+    public function price()
     {
-        return $this->hasMany(PriceList::class);
-    }
-
-    public function currentPrice()
-    {
-        return $this->belongsTo(PriceList::class,'current_price_id');
+        return $this->hasOne(PriceList::class);
     }
 }
