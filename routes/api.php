@@ -28,6 +28,12 @@ Route::group(["prefix" => "admin", "namespace" => "API\Admin"], function() {
             Route::get("/", "HotelController@getHotel");
             Route::post("/{id}", "HotelController@updateHotel");
         });
+
+        Route::group(["prefix" => "prices"], function() {
+            Route::get("/", "PriceListController@prices");
+            Route::post("/", "PriceListController@createPrice");
+            Route::post("/{id}", "PriceListController@editPrice");
+        });
         
     
     });
