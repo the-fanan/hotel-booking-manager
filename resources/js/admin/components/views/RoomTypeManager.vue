@@ -175,7 +175,24 @@ export default {
 		},
 		editRoomType(roomTypeDetails)
 		{
-
+			let vm = this;
+			axios.post(vm.apiRoot + '/room-types/' + roomTypeDetails.id, {id: roomTypeDetails.id,name: roomTypeDetails.name, price_list_id: roomTypeDetails.price_list_id}, {
+				headers: {
+					Authorization: "Bearer " + vm.token
+				}
+			})
+			.then(response => {
+				vm.alert = {type: "success", show: true, message: response.data.message };
+			})
+			.catch(error => {
+				if (error.response !== undefined) {
+					console.log(error.response)
+					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
+				} else {
+					console.log(error)
+					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
+				}
+			});
 		},
 		deleteRoomType(roomTypeDetails)
 		{
