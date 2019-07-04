@@ -171,7 +171,7 @@ export default {
 					console.log(error)
 					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
 				}
-			})
+			});
 		},
 		editRoomType(roomTypeDetails)
 		{
