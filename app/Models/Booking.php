@@ -14,6 +14,19 @@ class Booking extends Model
     protected $guarded = [
         'id',
     ];
+    /**
+     * The following attributes are appended
+     *
+     * @return array
+     */
+    protected $appends = ['price'];
+    /**
+     * Accessor
+    */
+    public function getPriceAttribute() 
+    {
+        return $this->price();
+    }
 
     /**
      * Relationships
@@ -31,5 +44,13 @@ class Booking extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * custom functions
+     */
+    public function price()
+    {
+        return $this->room->roomType->price()->first()->price;
     }
 }

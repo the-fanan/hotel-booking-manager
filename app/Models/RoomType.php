@@ -30,6 +30,6 @@ class RoomType extends Model
 
     public function price()
     {
-        return $this->belongsTo(PriceList::class);
+        return $this->belongsTo(PriceList::class,'price_list_id');
     }
 }
