@@ -160,6 +160,14 @@
 							></v-text-field>
 						</td>
 
+						<td>
+							{{ totalNights(props.item.start_date, props.item.end_date) }}
+						</td>
+
+						<td>
+							{{ totalPrice(props.item.start_date, props.item.end_date, props.item.price) }}
+						</td>
+
 						<td><v-btn dark color="warning" @click="editBooking(props.item)">Edit Booking</v-btn> <v-btn dark color="error" @click="deleteBooking(props.item)">Delete Booking</v-btn></td>
 					</tr>
 				</template>
@@ -174,6 +182,7 @@
 
 <script>
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import moment from "moment";
 
 export default {
 	data() {
@@ -189,6 +198,8 @@ export default {
 				{text: "Room", value: "room_id"},
 				{text: "Start Data", value: "start_date"},
 				{text: "End Date", value: "end_date"},
+				{text: "Nights", value: null},
+				{text: "Total Price", value: null},
 				{text: "Action", value: null},
 			],
 		}
@@ -206,6 +217,18 @@ export default {
 	methods: {
 		...mapMutations('auth', ['checkAuthentication']),
 		...mapActions({}),
+		totalNights(start,end)
+		{
+			var s = moment(start);
+			var e = moment(end);
+			var nights = e.diff(s, 'days');
+			return nights
+		},
+		totalPrice(start, end, price)
+		{
+			var nights = this.totalNights(start,end);
+			return price * nights;
+		},
 		fetchRooms()
 		{
 			let vm = this;
