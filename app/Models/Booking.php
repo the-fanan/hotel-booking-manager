@@ -19,13 +19,18 @@ class Booking extends Model
      *
      * @return array
      */
-    protected $appends = ['price'];
+    protected $appends = ['price', 'open'];
     /**
      * Accessor
     */
     public function getPriceAttribute() 
     {
         return $this->price();
+    }
+
+    public function getOpenAttribute() 
+    {
+        return false;
     }
 
     /**
