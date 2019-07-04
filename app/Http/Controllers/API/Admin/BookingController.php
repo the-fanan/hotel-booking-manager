@@ -131,6 +131,30 @@ class BookingController extends Controller
 
     public function deleteBooking(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            "id" => ["required", "numeric"],
+        ]);
 
+        if ($validator->fails()) {
+            $error["message"] = "Invalid or missing input fields";
+            $validation_messages = "";
+            foreach ($validator->errors()->toArray() as $name => $value) {
+                $validation_messages .= $value[0] . " ";
+            }
+            $error["validation_messages"] = $validation_messages;
+            $error["status"] = "error";
+            return response()->json($error, 401);
+        }
+
+        $hotel = $request->user()->hotels()->first();
+        $booking = $hotel->bookings()->where("id", $request->id)->first();
+        $booking->forceDelete();
+
+        $response = [
+            "message" => "Booking deleted succesfully",
+            "status" => "success",
+        ];
+
+        return response()->json($response,200);
     }
 }

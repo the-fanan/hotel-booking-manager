@@ -287,7 +287,26 @@ export default {
 		},
 		deleteBooking(bookingDetails)
 		{
-
+			let vm = this;
+			axios.post(vm.apiRoot + '/bookings/delete/' + bookingDetails.id, {id: bookingDetails.id}, {
+				headers: {
+					Authorization: "Bearer " + vm.token
+				}
+			})
+			.then(response => {
+				var index = _.findIndex(vm.bookings, {id: bookingDetails.id});
+				vm.bookings.splice(index, 1);
+				vm.alert = {type: "success", show: true, message: response.data.message };
+			})
+			.catch(error => {
+				if (error.response !== undefined) {
+					console.log(error.response)
+					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
+				} else {
+					console.log(error)
+					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
+				}
+			});
 		}
 	}
 }
