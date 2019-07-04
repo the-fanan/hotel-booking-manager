@@ -49,5 +49,12 @@ Route::group(["prefix" => "admin", "namespace" => "API\Admin"], function() {
             Route::post("/{id}", "RoomController@editRoom");
             Route::post("/delete/{id}", "RoomController@deleteRoom");
         });
+
+        Route::group(["prefix" => "bookings"], function() {
+            Route::get("/", "BookingController@bookings");
+            Route::post("/", "BookingController@createBooking");
+            Route::post("/{id}", "BookingController@editBooking");
+            Route::post("/delete/{id}", "BookingController@deleteBooking");
+        });
     });
 });
