@@ -10,7 +10,8 @@ class BookingController extends Controller
 {
     public function bookings(Request $request)
     {
-
+        $hotel = $request->user()->hotels()->first();
+        return response()->json($hotel->bookings()->get(),200);
     }
 
     public function createBooking(Request $request)
