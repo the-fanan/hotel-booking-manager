@@ -19,7 +19,7 @@
 					<v-flex xs12 md4>
 						<v-text-field
 							v-model="newPrice.price"
-							label="Price"
+							label="Price (USD)"
 							required
 							type="number"
 							outline
@@ -97,7 +97,7 @@ export default {
 			alert: { type: "error", show: false, message: null },
 			priceList: [],
 			priceListHeaders: [
-				{text: "Price", value: "price"},
+				{text: "Price (USD)", value: "price"},
 				{text: "Description", value: "description"},
 				{text: "Action", value: null}
 			],
