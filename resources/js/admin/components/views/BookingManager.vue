@@ -8,7 +8,7 @@
 		</v-layout>
 
 		<v-layout row justify-center>
-			<v-alert v-cloak :value="alert.show" :type="alert.type" dismissible>
+			<v-alert v-cloak :type="alert.type" dismissible v-model="alert.show">
 				{{ alert.message }}
 			</v-alert>
 		</v-layout>
@@ -324,7 +324,7 @@ export default {
 			});
 		},
 		createBooking()
-		{
+		{	
 			let vm = this;
 			axios.post(vm.apiRoot + '/bookings', {customer_name: vm.newBooking.customer_name, customer_email: vm.newBooking.customer_email, room_id: vm.newBooking.room_id, start_date: vm.newBooking.start_date, end_date: vm.newBooking.end_date}, {
 				headers: {
@@ -344,10 +344,12 @@ export default {
 				if (error.response !== undefined) {
 					console.log(error.response)
 					vm.alert = {type: "error", show: true, message: error.response.data.message + ". " + error.response.data.validation_messages};
+				
 				} else {
 					console.log(error)
 					vm.alert = {type: "error", show: true, message: "An error occured. Refresh page and try again." };
 				}
+					
 			});
 		},
 		editBooking(bookingDetails)

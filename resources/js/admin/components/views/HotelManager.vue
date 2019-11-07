@@ -7,7 +7,7 @@
 			</v-flex>
 		</v-layout>
 		<v-layout row justify-center>
-			<v-alert v-cloak :value="alert.show" :type="alert.type" dismissible>
+			<v-alert v-cloak v-model="alert.show" :type="alert.type" dismissible>
 				{{ alert.message }}
 			</v-alert>
 		</v-layout>
