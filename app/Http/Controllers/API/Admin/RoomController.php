@@ -36,9 +36,9 @@ class RoomController extends Controller
 
         $roomFields = $request->only(["name", "room_type_id"]);
         $hotel = $request->user()->hotels()->first();
-        $imageUrl = $this->uploadFile($request->image);
-        $newRoom = $hotel->rooms()->create(array_merge($roomFields, ["image" => $imageUrl["secure_url"]]));
-
+        //$imageUrl = $this->uploadFile($request->image);
+        //$newRoom = $hotel->rooms()->create(array_merge($roomFields, ["image" => $imageUrl["secure_url"]]));
+        $newRoom = $hotel->rooms()->create(array_merge($roomFields, ["image" => url($request->file('image')->store('uploads/rooms'))]));
         $response = [
             "message" => "New room created succesfully",
             "room" => $newRoom,
@@ -74,8 +74,9 @@ class RoomController extends Controller
         $room->fill($roomFields);
 
         if ($request->hasFile('image')) {
-            $imageUrl = $this->uploadFile($request->image);
-            $room->image = $imageUrl["secure_url"];
+           // $imageUrl = $this->uploadFile($request->image);
+           // $room->image = $imageUrl["secure_url"];
+            $room->image  = url($request->file('image')->store('uploads/rooms'));
         }
         $room->save();
 

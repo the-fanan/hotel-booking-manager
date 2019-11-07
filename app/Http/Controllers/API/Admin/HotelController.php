@@ -45,8 +45,9 @@ class HotelController extends Controller
         $hotel = $request->user()->hotels()->first();
 
         if ($request->hasFile('image')) {
-            $newImageUrl = $this->uploadFile($request->image);
-            $hotel->image = $newImageUrl["secure_url"];
+            //$newImageUrl = $this->uploadFile($request->image);
+            //$hotel->image = $newImageUrl["secure_url"];
+            $hotel->image = url($request->file('image')->store('uploads/hotel'));
         }
        
         $hotel->fill($hotelFields);
