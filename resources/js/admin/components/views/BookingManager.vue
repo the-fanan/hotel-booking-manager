@@ -178,6 +178,7 @@
 			<v-toolbar style="margin-top: 10px; margin-bottom:10px">
 				<v-spacer></v-spacer>
 				<v-toolbar-items>
+					<v-btn large dark color="info" @click="allRoomsEvents" style="margin-right: 20px;">All Rooms</v-btn>
 					<v-select
 							v-model="calendarRoom"
 							item-text="name"
@@ -261,6 +262,12 @@ export default {
 	methods: {
 		...mapMutations('auth', ['checkAuthentication']),
 		...mapActions({}),
+		allRoomsEvents()
+		{
+			this.events = this.bookings.map(booking => {
+				return {start: booking.start_date, end: booking.end_date, title: booking.room.name}; 
+			});
+		},
 		totalNights(start,end)
 		{
 			var s = moment(start);
