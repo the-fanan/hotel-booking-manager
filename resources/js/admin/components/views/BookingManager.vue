@@ -50,7 +50,7 @@
 					<v-flex xs12 md4>
 						<v-text-field
 							v-model="newBooking.start_date"
-							hint="MM/DD/YYYY format"
+							hint="YYYY-MM-DD H:m:s format"
               persistent-hint
               prepend-icon="event"
 							label="Start Date"
@@ -63,7 +63,7 @@
 					<v-flex xs12 md4>
 						<v-text-field
 							v-model="newBooking.end_date"
-							hint="MM/DD/YYYY format"
+							hint="YYYY-MM-DD H:m:s format"
               persistent-hint
               prepend-icon="event"
 							label="End Date"
@@ -137,7 +137,7 @@
 						<td>
 							<v-text-field
 								v-model="props.item.start_date"
-								hint="MM/DD/YYYY format"
+								hint="YYYY-MM-DD H:m:s format"
 								persistent-hint
 								prepend-icon="event"
 								label="Start Date"
@@ -150,7 +150,7 @@
 						<td>
 							<v-text-field
 								v-model="props.item.end_date"
-								hint="MM/DD/YYYY format"
+								hint="YYYY-MM-DD H:m:s format"
 								persistent-hint
 								prepend-icon="event"
 								label="End Date"
@@ -190,6 +190,7 @@
 <script>
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import moment from "moment";
+import _ from "lodash";
 import { FullCalendar } from 'vue-full-calendar';
 import 'fullcalendar/dist/fullcalendar.css';
 
@@ -212,11 +213,6 @@ export default {
 				{text: "Action", value: null},
 			],
 			events: [
-				{
-					title: "Room G7",
-					start: "2019-11-10",
-					end: "2019-11-16"
-				}
 			],
 		}
 	},
@@ -227,6 +223,9 @@ export default {
 		this.checkAuthentication();
 		this.fetchRooms();
 		this.fetchBookings();
+	},
+	mounted() {
+	
 	},
 	computed: {
     ...mapGetters({}),
@@ -274,6 +273,7 @@ export default {
 			})
 			.then(response => {
 				vm.bookings = response.data;
+				vm.events = vm.bookings.map(booking => {return {start: booking.start_date, end: booking.end_date, title: booking.room.name}; });
 			})
 			.catch(error => {
 				console.log(error);
@@ -294,6 +294,7 @@ export default {
 				vm.newBooking.room_id = "";
 				vm.newBooking.start_date = "";
 				vm.newBooking.end_date = "";
+				vm.events.unshift({start: response.data.booking.start_date, end: response.data.booking.end_date, title: response.data.booking.room.name});
 				vm.alert = {type: "success", show: true, message: response.data.message };
 			})
 			.catch(error => {
@@ -318,6 +319,7 @@ export default {
 			})
 			.then(response => {
 				vm.alert = {type: "success", show: true, message: response.data.message };
+				this.fetchBookings()
 			})
 			.catch(error => {
 				if (error.response !== undefined) {
