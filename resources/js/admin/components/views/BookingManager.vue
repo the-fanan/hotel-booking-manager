@@ -175,6 +175,19 @@
 		</v-layout>
 
 		<v-layout wrap v-show="!listStyle">
+			<v-toolbar style="margin-top: 10px; margin-bottom:10px">
+				<v-spacer></v-spacer>
+				<v-toolbar-items>
+					<v-select
+							v-model="calendarRoom"
+							item-text="name"
+							item-value="name"
+							:items="rooms"
+							label="Room"
+							outline
+						></v-select>
+				</v-toolbar-items>
+			</v-toolbar>
       <v-flex
         xs12
         class="mb-3"
@@ -183,6 +196,7 @@
           <full-calendar :events="events"></full-calendar>
         </v-sheet>
       </v-flex>
+			
     </v-layout>
 	</v-container>
 </template>
@@ -202,6 +216,7 @@ export default {
 			alert: { type: "error", show: false, message: null },
 			bookings: [],
 			rooms: [],
+			calendarRoom: null,
 			bookingsHeaders: [
 				{text: "Customer Name", value: "customer_name"},
 				{text: "Customer Email", value: "customer_email"},
@@ -214,6 +229,17 @@ export default {
 			],
 			events: [
 			],
+		}
+	},
+	watch: {
+		calendarRoom: function (val) {
+			this.events = this.bookings.map(booking => {
+				if (val === booking.room.name) {
+					return {start: booking.start_date, end: booking.end_date, title: booking.room.name}; 
+				} else {
+					return {}
+				}
+			});
 		}
 	},
 	components: {
